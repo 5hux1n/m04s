@@ -1,0 +1,19 @@
+name: Offline driver tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  driver:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+          cache: pip
+      - name: Install LZO runtime
+        run: sudo apt-get update && sudo apt-get install -y liblzo2-2
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run offline tests (no Bluetooth or printer)
+        run: python -m unittest discover -s tests -v

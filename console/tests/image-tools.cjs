@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const {transform,monochrome,blur}=require('../public/assets/image-tools.js');
+const w=40,h=30,white=new Float32Array(w*h).fill(255);
+assert.ok([...transform(white,w,h,{effect:'line'})].every(v=>v===255),'flat white has no false edges');
+const rect=new Float32Array(white);for(let y=8;y<22;y++)for(let x=10;x<30;x++)rect[y*w+x]=0;
+const line=transform(rect,w,h,{effect:'line',strength:70});
+assert.equal(line[15*w+20],255,'solid region becomes white line-art interior');
+assert.ok(line[15*w+10]<100,'outline is retained');
+const shadow=new Float32Array(w*h).fill(220);for(let y=8;y<22;y++)for(let x=15;x<18;x++)shadow[y*w+x]=45;
+const text=transform(shadow,w,h,{effect:'text'});assert.equal(text[15*w+16],0);assert.equal(text[0],255);
+assert.ok(transform(new Float32Array([120]),1,1,{brightness:20})[0]>120);
+assert.ok(transform(new Float32Array([40]),1,1,{contrast:40})[0]<40);
+assert.equal(transform(new Float32Array([10]),1,1,{invert:true})[0],245);
+const sketch=transform(rect,w,h,{effect:'sketch'});assert.ok([...sketch].every(v=>Number.isFinite(v)&&v>=0&&v<=255));
+assert.deepEqual([...blur(new Float32Array(12).fill(100),4,3,2)],Array(12).fill(100));
+const dither=monochrome(new Float32Array(400).fill(128),20,20,'dither');
+const blacks=[...dither].filter(v=>v===0).length;assert.ok(blacks>170&&blacks<230);assert.ok([...dither].every(v=>v===0||v===255));
+console.log('Image algorithms: 11 assertions passed');

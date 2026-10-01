@@ -1,0 +1,635 @@
+{
+  "source": "Static model-to-strategy mapping recovered from user-supplied App 4.46.0; not a hardware compatibility list",
+  "models": [
+    {
+      "model": "D30Pro",
+      "enum": 3,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D35",
+      "enum": 4,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D20",
+      "enum": 5,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D30",
+      "enum": 1,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D30S",
+      "enum": 2,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D10",
+      "enum": 6,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D50",
+      "enum": 7,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "Q30",
+      "enum": 8,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "Q32",
+      "enum": 9,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "Q30S",
+      "enum": 10,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "Q31",
+      "enum": 11,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D31",
+      "enum": 12,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "D32",
+      "enum": 13,
+      "strategy": "QYD30ImageStrategy"
+    },
+    {
+      "model": "A30",
+      "enum": 14,
+      "strategy": "QYA30ImageStrategy"
+    },
+    {
+      "model": "M110",
+      "enum": 15,
+      "strategy": "QYM110Strategy"
+    },
+    {
+      "model": "M110C",
+      "enum": 16,
+      "strategy": "QYM110CStrategy"
+    },
+    {
+      "model": "M108",
+      "enum": 17,
+      "strategy": "QYM105ImageStrategy"
+    },
+    {
+      "model": "M105",
+      "enum": 18,
+      "strategy": "QYM105ImageStrategy"
+    },
+    {
+      "model": "M109",
+      "enum": 19,
+      "strategy": "QYM109ImageStrategy"
+    },
+    {
+      "model": "M108_Z",
+      "enum": 20,
+      "strategy": "QYM110Strategy"
+    },
+    {
+      "model": "M200",
+      "enum": 21,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M200C",
+      "enum": 22,
+      "strategy": "QYM110CStrategy"
+    },
+    {
+      "model": "M206",
+      "enum": 23,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M208",
+      "enum": 24,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M209",
+      "enum": 25,
+      "strategy": "QYM209ImageStrategy"
+    },
+    {
+      "model": "M220",
+      "enum": 26,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M220S",
+      "enum": 27,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M220C",
+      "enum": 28,
+      "strategy": "QYM110CStrategy"
+    },
+    {
+      "model": "M219",
+      "enum": 29,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M221",
+      "enum": 30,
+      "strategy": "QYM110CStrategy"
+    },
+    {
+      "model": "M120",
+      "enum": 31,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M126",
+      "enum": 32,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "M120C",
+      "enum": 33,
+      "strategy": "QYM110Strategy"
+    },
+    {
+      "model": "M102",
+      "enum": 34,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "P12",
+      "enum": 35,
+      "strategy": null
+    },
+    {
+      "model": "M950",
+      "enum": 46,
+      "strategy": "QYLM1600ImageStrategy"
+    },
+    {
+      "model": "LT12",
+      "enum": 44,
+      "strategy": "QYLM1600ImageStrategy"
+    },
+    {
+      "model": "LM1600",
+      "enum": 45,
+      "strategy": "QYLM1600ImageStrategy"
+    },
+    {
+      "model": "M150",
+      "enum": 36,
+      "strategy": "QYM120ImageStrategy"
+    },
+    {
+      "model": "P12Pro",
+      "enum": 37,
+      "strategy": null
+    },
+    {
+      "model": "E600S",
+      "enum": 38,
+      "strategy": "QYE600ImageStrategy"
+    },
+    {
+      "model": "P1000",
+      "enum": 39,
+      "strategy": null
+    },
+    {
+      "model": "P3100D",
+      "enum": 40,
+      "strategy": null
+    },
+    {
+      "model": "P3100DJ",
+      "enum": 41,
+      "strategy": null
+    },
+    {
+      "model": "P3200",
+      "enum": 42,
+      "strategy": "QYP3200ImageStrategy"
+    },
+    {
+      "model": "P3200D",
+      "enum": 43,
+      "strategy": "QYP3200ImageStrategy"
+    },
+    {
+      "model": "M960",
+      "enum": 47,
+      "strategy": null
+    },
+    {
+      "model": "M960D",
+      "enum": 48,
+      "strategy": null
+    },
+    {
+      "model": "D1600",
+      "enum": 49,
+      "strategy": null
+    },
+    {
+      "model": "D1600D",
+      "enum": 50,
+      "strategy": null
+    },
+    {
+      "model": "D480BT",
+      "enum": 51,
+      "strategy": null
+    },
+    {
+      "model": "P780",
+      "enum": 53,
+      "strategy": "QYP780ImageStrategy"
+    },
+    {
+      "model": "P780BTPRO",
+      "enum": 55,
+      "strategy": "QYP780ImageStrategy"
+    },
+    {
+      "model": "P780BT",
+      "enum": 54,
+      "strategy": "QYP780ImageStrategy"
+    },
+    {
+      "model": "P24",
+      "enum": 56,
+      "strategy": "QYP780ImageStrategy"
+    },
+    {
+      "model": "P580",
+      "enum": 57,
+      "strategy": "QYP780ImageStrategy"
+    },
+    {
+      "model": "D680BT",
+      "enum": 58,
+      "strategy": null
+    },
+    {
+      "model": "B246D",
+      "enum": 59,
+      "strategy": "QYB246ImageStrategy"
+    },
+    {
+      "model": "T200",
+      "enum": 60,
+      "strategy": "QYB246ImageStrategy"
+    },
+    {
+      "model": "PM-201",
+      "enum": 61,
+      "strategy": null
+    },
+    {
+      "model": "M02",
+      "enum": 62,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02C",
+      "enum": 68,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02S",
+      "enum": 66,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02H",
+      "enum": 83,
+      "strategy": "QYM02HStrategy"
+    },
+    {
+      "model": "M02SH",
+      "enum": 84,
+      "strategy": "QYM02HStrategy"
+    },
+    {
+      "model": "M02F",
+      "enum": 85,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02E",
+      "enum": 120,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02 Pro",
+      "enum": 81,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "Y02S",
+      "enum": 86,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "Y04S",
+      "enum": 87,
+      "strategy": "QYM04Strategy"
+    },
+    {
+      "model": "M03",
+      "enum": 69,
+      "strategy": "QYM03Strategy"
+    },
+    {
+      "model": "ASL-301",
+      "enum": 89,
+      "strategy": "QYM03Strategy"
+    },
+    {
+      "model": "ASL 301",
+      "enum": 90,
+      "strategy": "QYM03Strategy"
+    },
+    {
+      "model": "M03A",
+      "enum": 70,
+      "strategy": "QYM03Strategy"
+    },
+    {
+      "model": "M03S",
+      "enum": 92,
+      "strategy": "QYM03Strategy"
+    },
+    {
+      "model": "M03AS",
+      "enum": 91,
+      "strategy": "QYM03Strategy"
+    },
+    {
+      "model": "M03AH",
+      "enum": 71,
+      "strategy": "QYM02HStrategy"
+    },
+    {
+      "model": "M03C",
+      "enum": 72,
+      "strategy": "QYM03Strategy"
+    },
+    {
+      "model": "KP-Q1",
+      "enum": 93,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "T02",
+      "enum": 121,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "MR2",
+      "enum": 94,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M08/MR8",
+      "enum": 88,
+      "strategy": "QYM08Strategy"
+    },
+    {
+      "model": "M08",
+      "enum": 88,
+      "strategy": "QYM08Strategy"
+    },
+    {
+      "model": "M08F",
+      "enum": 78,
+      "strategy": "QYM08FStrategy"
+    },
+    {
+      "model": "H831",
+      "enum": 80,
+      "strategy": "QYM08FStrategy"
+    },
+    {
+      "model": "M822",
+      "enum": 76,
+      "strategy": "QYM08FStrategy"
+    },
+    {
+      "model": "M821",
+      "enum": 77,
+      "strategy": "QYM08FStrategy"
+    },
+    {
+      "model": "T08FS",
+      "enum": 79,
+      "strategy": "QYM08FStrategy"
+    },
+    {
+      "model": "P831",
+      "enum": 98,
+      "strategy": "QYP831Strategy"
+    },
+    {
+      "model": "P831Max",
+      "enum": 99,
+      "strategy": "QYP831Strategy"
+    },
+    {
+      "model": "P832",
+      "enum": 100,
+      "strategy": "QYP831Strategy"
+    },
+    {
+      "model": "P833",
+      "enum": 101,
+      "strategy": "QYP831Strategy"
+    },
+    {
+      "model": "T831",
+      "enum": 106,
+      "strategy": "QYP831Strategy"
+    },
+    {
+      "model": "R831",
+      "enum": 102,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "R831-BG",
+      "enum": 103,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "R831-TK",
+      "enum": 104,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "R831-YC",
+      "enum": 105,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "Q300",
+      "enum": 107,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "AM-X1",
+      "enum": 116,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "Q301",
+      "enum": 108,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "Q302",
+      "enum": 109,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "M832",
+      "enum": 110,
+      "strategy": "QYM832Trategy"
+    },
+    {
+      "model": "M832T",
+      "enum": 111,
+      "strategy": "QYM832Trategy"
+    },
+    {
+      "model": "CS300",
+      "enum": 119,
+      "strategy": "QYCS300Strategy"
+    },
+    {
+      "model": "M836",
+      "enum": 113,
+      "strategy": "QYM832Trategy"
+    },
+    {
+      "model": "M833",
+      "enum": 112,
+      "strategy": "QYM832Trategy"
+    },
+    {
+      "model": "M831",
+      "enum": 114,
+      "strategy": "QYM832Trategy"
+    },
+    {
+      "model": "AM-X2",
+      "enum": 115,
+      "strategy": "QYM832Trategy"
+    },
+    {
+      "model": "S821",
+      "enum": 95,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "S821K",
+      "enum": 97,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "S821X",
+      "enum": 96,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "M04S",
+      "enum": 73,
+      "strategy": "QYM04Strategy"
+    },
+    {
+      "model": "M04AH",
+      "enum": 74,
+      "strategy": "QYM04Strategy"
+    },
+    {
+      "model": "M04AS",
+      "enum": 75,
+      "strategy": "QYM04Strategy"
+    },
+    {
+      "model": "M02A",
+      "enum": 82,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02D",
+      "enum": 67,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02X",
+      "enum": 63,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02X/L",
+      "enum": 65,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "M02L",
+      "enum": 64,
+      "strategy": "QYDefaultStrategy"
+    },
+    {
+      "model": "P3100",
+      "enum": 122,
+      "strategy": null
+    },
+    {
+      "model": "S822",
+      "enum": 117,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "S823",
+      "enum": 118,
+      "strategy": "QYS822Strategy"
+    },
+    {
+      "model": "TP81",
+      "enum": 123,
+      "strategy": "QYTP81Strategy"
+    },
+    {
+      "model": "TP82",
+      "enum": 124,
+      "strategy": "QYTP81Strategy"
+    },
+    {
+      "model": "SP20",
+      "enum": 126,
+      "strategy": "QYTP81Strategy"
+    },
+    {
+      "model": "M08E",
+      "enum": 125,
+      "strategy": "QYM08FStrategy"
+    }
+  ]
+}

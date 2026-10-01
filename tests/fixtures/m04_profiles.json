@@ -1,0 +1,98 @@
+[
+  {
+    "model": "M04AH",
+    "dpi": 203,
+    "maxPrintWidthInDot": 863,
+    "snList": [
+      {
+        "sn": "Q132",
+        "type": 1
+      },
+      {
+        "sn": "Q395",
+        "type": 1
+      }
+    ],
+    "effectiveImageStrategy": "QYM04Strategy",
+    "special_coefficient": 150
+  },
+  {
+    "model": "M04AS",
+    "dpi": 300,
+    "maxPrintWidthInDot": 1228,
+    "snList": [
+      {
+        "sn": "Q089",
+        "type": 1
+      },
+      {
+        "sn": "Q164",
+        "type": 1
+      },
+      {
+        "sn": "Q165",
+        "type": 1
+      },
+      {
+        "sn": "Q209",
+        "type": 1
+      },
+      {
+        "sn": "Q230",
+        "type": 1
+      },
+      {
+        "sn": "Q500",
+        "type": 1
+      }
+    ],
+    "effectiveImageStrategy": "QYM04Strategy",
+    "special_coefficient": 100
+  },
+  {
+    "model": "M04S",
+    "dpi": 300,
+    "maxPrintWidthInDot": 1248,
+    "snList": [
+      {
+        "sn": "Q016",
+        "type": 1
+      },
+      {
+        "sn": "Q171",
+        "type": 1
+      },
+      {
+        "sn": "Q466",
+        "type": 1
+      }
+    ],
+    "effectiveImageStrategy": "QYM04Strategy",
+    "special_coefficient": 150
+  },
+  {
+    "model": "Y04S",
+    "dpi": 300,
+    "maxPrintWidthInDot": 1248,
+    "snList": [
+      {
+        "sn": "Q170",
+        "type": 1
+      },
+      {
+        "sn": "Q188",
+        "type": 1
+      },
+      {
+        "sn": "Q208",
+        "type": 1
+      },
+      {
+        "sn": "Q229",
+        "type": 1
+      }
+    ],
+    "effectiveImageStrategy": "QYM04Strategy",
+    "special_coefficient": 150
+  }
+]

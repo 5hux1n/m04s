@@ -1,0 +1,64 @@
+name: 真机测试结果
+description: 提交成功、部分成功或失败的测试，帮助完善设备适配
+title: "[真机测试] 型号 / SN 前缀 / 结果"
+body:
+  - type: markdown
+    attributes:
+      value: "请先阅读 README 支持范围。SN 只填前 4 位，日志中的完整 SN、蓝牙地址及本机用户名／路径请打码。"
+  - type: input
+    id: model
+    attributes:
+      label: 精确设备型号
+      placeholder: "例如 M04S、M04AS、M04AH、Y04S"
+    validations:
+      required: true
+  - type: input
+    id: serial_prefix
+    attributes:
+      label: SN 前 4 位
+      placeholder: "例如 Q016；不要填写完整 SN"
+  - type: input
+    id: firmware
+    attributes:
+      label: 固件版本
+      placeholder: "不知道时填未知"
+  - type: input
+    id: environment
+    attributes:
+      label: macOS / Python / 项目提交版本
+      placeholder: "git rev-parse --short HEAD"
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: 测试结果
+      options:
+        - 完整成功
+        - 部分成功／截断／错位
+        - 失败／空白／连接失败
+        - 未运行项目，提供其他型号信息
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: 命令、纸宽、纸型和参数
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: 纸面结果与照片
+      description: "两个 6 是否完整？长图是否到 END 12/12？是否收到完成通知？可拖入照片。"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 打码后的日志和 summary
+      description: "设备额度回满不等于纸面完成，请保留完成状态。"
+  - type: textarea
+    id: official
+    attributes:
+      label: 官方 App 同图对照或补充信息
