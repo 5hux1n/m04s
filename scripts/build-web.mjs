@@ -1,0 +1,23 @@
+import {build} from 'esbuild';
+import {mkdir,readFile,writeFile,cp,rm} from 'node:fs/promises';
+import path from 'node:path';
+const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'web/dist');
+await rm(out,{recursive:true,force:true});await mkdir(path.join(out,'assets'),{recursive:true});
+await cp(path.join(root,'console/public/assets'),path.join(out,'assets'),{recursive:true});
+let html=await readFile(path.join(root,'console/public/index.php'),'utf8');
+html=html.replace(/^<\?php[^\n]*\?>\s*/,'').replace('<?=$csrf?>','browser-local');
+html=html.replace('<script src="/assets/app.js"','<script src="/assets/platform.js" defer></script><script src="/assets/app.js"');
+html=html.replace('内容和记录保存在本机工作区','内容和记录保存在此设备的浏览器中');
+html=html.replace('PDF 保留页面版式；Word、TXT 和网页正文可继续编辑。导入会创建新草稿。','文件在本机导入：PDF 保留版式，DOCX／TXT 可编辑；DOC 请先转换。网页读取受来源网站限制。');
+html=html.replace('<input id="webImages" type="checkbox" checked>包含网页图片','<input id="webImages" type="checkbox" disabled>跨站图片请单独上传');
+html=html.replace('accept=".pdf,.docx,.doc,.txt"','accept=".pdf,.docx,.txt"');
+if(html.includes('<?'))throw Error('公开页面仍包含 PHP 代码');
+await writeFile(path.join(out,'index.html'),html);
+await build({entryPoints:[path.join(root,'web/src/platform.mjs')],bundle:true,external:['/vendor/pdf.mjs'],format:'iife',platform:'browser',target:'es2022',outfile:path.join(out,'assets/platform.js'),minify:true,legalComments:'eof'});
+await mkdir(path.join(out,'vendor'),{recursive:true});
+for(const name of ['pdf.mjs','pdf.worker.mjs'])await cp(path.join(root,'node_modules/pdfjs-dist/build',name),path.join(out,'vendor',name));
+for(const name of ['cmaps','standard_fonts','wasm'])await cp(path.join(root,'node_modules/pdfjs-dist',name),path.join(out,'vendor',name),{recursive:true});
+const licenses=[];for(const pkg of ['lzo1x','mammoth','pdfjs-dist']){const location=path.join(root,'node_modules',pkg);for(const name of ['LICENSE','LICENSE.txt','LICENSE.md'])try{licenses.push(pkg+'\n'+await readFile(path.join(location,name),'utf8'));break;}catch{}}
+await writeFile(path.join(out,'THIRD_PARTY_LICENSES.txt'),licenses.join('\n\n'));
+await writeFile(path.join(out,'_headers'),`/*\n  Permissions-Policy: bluetooth=(self)\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: no-referrer\n  X-Frame-Options: DENY\n/index.html\n  Cache-Control: no-cache\n`);
+console.log('Built web/dist: editor + local storage + M04S Web Bluetooth.');

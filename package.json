@@ -1,0 +1,50 @@
+{
+  "name": "m04s-studio",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "description": "M04S local-first print studio",
+  "scripts": {
+    "build:web": "node scripts/build-web.mjs",
+    "test:web": "node --test web/tests/*.test.mjs",
+    "test:browser": "node web/tests/browser.mjs",
+    "desktop": "npm run build:web && electron .",
+    "build:desktop": "npm run build:web && node scripts/build-desktop.mjs",
+    "deploy": "npm run build:web && wrangler deploy",
+    "setup:desktop": "node scripts/install-electron.mjs"
+  },
+  "dependencies": {
+    "lzo1x": "1.0.1",
+    "mammoth": "1.13.0",
+    "pdfjs-dist": "6.4.299"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "electron": "44.5.1",
+    "electron-builder": "26.0.12",
+    "esbuild": "0.25.12",
+    "wrangler": "4.118.0"
+  },
+  "build": {
+    "appId": "dev.m04s.studio",
+    "productName": "M04S Studio",
+    "directories": {
+      "output": "artifacts/desktop"
+    },
+    "files": [
+      "desktop/**",
+      "web/dist/**",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "identity": null,
+      "extendInfo": {
+        "NSBluetoothAlwaysUsageDescription": "连接您选择的 M04S 打印机并打印作品。"
+      }
+    },
+    "electronDist": "node_modules/electron/dist"
+  },
+  "author": "m04s contributors"
+}

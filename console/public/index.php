@@ -1,7 +1,7 @@
 <?php $csrf=htmlspecialchars(token(),ENT_QUOTES,'UTF-8'); ?>
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="console-token" content="<?=$csrf?>"><title>M04S · 打印工作台</title><link rel="stylesheet" href="/assets/style.css"><script src="/assets/image-tools.js" defer></script><script src="/assets/preview-panel.js" defer></script><script src="/assets/app.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="console-token" content="<?=$csrf?>"><title>M04S · 打印工作台</title><link rel="stylesheet" href="/assets/style.css"><script src="/assets/image-tools.js" defer></script><script src="/assets/preview-panel.js" defer></script><script src="/assets/shipping-label.js" defer></script><script src="/assets/app.js" defer></script></head>
 <body>
 <div class="shell">
 <aside class="sidebar">
@@ -45,6 +45,11 @@
     <div class="preview-footer"><span id="paperDimensions">正在生成预览</span><span id="previewState">黑白点阵</span></div>
    </section>
    <section class="card layout-card"><div class="card-heading"><h2>纸面与图像</h2><span class="small-text muted">预览即打印内容</span></div><div class="form-grid">
+    <label class="full-width">打印版式<select id="labelPreset"><option value="none">普通图文</option><option value="76x130">快递面单 · 76 × 130 mm</option><option value="100x180">快递面单 · 100 × 180 mm</option><option value="custom">自定义面单</option></select></label>
+    <label>面单宽度（mm）<input id="labelWidth" type="number" min="20" max="105" value="76" disabled></label><label>面单长度（mm）<input id="labelHeight" type="number" min="30" max="1000" value="130" disabled></label>
+    <label>面单内边距（mm）<input id="labelInset" type="number" min="0" max="10" step="0.5" value="0" disabled></label>
+    <div class="full-width"><button class="btn" id="uploadLabelButton">上传面单 PDF／图片</button><input id="labelFile" type="file" accept=".pdf,image/png,image/jpeg" hidden></div>
+    <p class="field-note full-width">面单模式：每页一张完整 PDF 页面或图片，等比例居中，不裁剪。两种预设默认使用 110 mm 连续纸；固定长度为图像长度，收尾走纸与间隙定位仍待实测。此功能不代表拼多多 App 已能直接连接。</p>
     <label class="full-width">纸张宽度<select id="paperWidth"><option value="53">53 mm · 小卷纸</option><option value="80">80 mm · 中卷纸</option><option value="110">110 mm · 大卷纸</option><option value="legacy">53 mm · 原有打印宽度</option></select></label>
     <label>纸面高度<select id="heightMode"><option value="auto">随内容自动延长</option><option value="fixed">固定高度</option></select></label><label>高度（mm）<input id="paperHeight" type="number" min="15" max="1000" value="60" disabled></label>
     <label>边距（mm）<input id="paperMargin" type="number" min="0" max="15" step="0.5" value="3"></label><label>图像处理<select id="processing"><option value="threshold">文字清晰</option><option value="dither">照片抖动</option></select></label>

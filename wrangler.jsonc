@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "m04s-studio",
+  "compatibility_date": "2026-10-05",
+  "assets": {
+    "directory": "./web/dist",
+    "not_found_handling": "none"
+  },
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "bleprint.goforit.si",
+      "custom_domain": true
+    }
+  ]
+}

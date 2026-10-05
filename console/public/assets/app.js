@@ -13,6 +13,7 @@ const statusNames = {queued:'等待处理',running:'处理中',completed:'已完
 const jobNames = {print:'打印作品',feed:'空白走纸',connect:'连接设备',disconnect:'断开设备',refresh:'刷新状态',settings:'应用设置'};
 
 async function api(path, data, method='POST') {
+  if(window.WebPlatform) return window.WebPlatform.request(path,data,data===undefined?'GET':method);
   const options = {method:data===undefined?'GET':method,headers:{'X-Console-Token':token},cache:'no-store'};
   if (data!==undefined) {
     if (data instanceof FormData) options.body=data;
@@ -34,6 +35,7 @@ function element(tag,attrs={},children=[]) {
     if (key==='text') node.textContent=value;
     else if (key==='class') node.className=value;
     else if (key.startsWith('on')) node.addEventListener(key.slice(2),value);
+    else if(key==='src' && window.WebPlatform && value.startsWith('/media/')) window.WebPlatform.assetURL(value.slice(7)).then(url=>node.src=url).catch(error=>toast(error.message,true));
     else if (key in node) node[key]=value;
     else node.setAttribute(key,value);
   }
@@ -91,10 +93,14 @@ async function loadDraft(id) {
 }
 function syncLayout() {
   const layout=doc.layout;
+  const label=layout.labelPreset && layout.labelPreset!=='none';
+  $('labelPreset').value=layout.labelPreset||'none';
+  for(const [id,fallback] of [['labelWidth',76],['labelHeight',130],['labelInset',0]]) {$(id).value=layout[id]??fallback;$(id).disabled=!label;}
   $('paperWidth').value=layout.paperWidth;
   const paper=paperProfile(layout);
   $('paperWidthNote').textContent=`纸卷 ${paper.mm} mm，可打印约 ${(paper.dots/DOTS_MM).toFixed(1)} mm。请与实际安装纸卷保持一致。`;
   $('heightMode').value=layout.heightMode;$('paperHeight').value=layout.height;$('paperHeight').disabled=layout.heightMode!=='fixed';$('paperMargin').value=layout.margin;$('processing').value=layout.processing;$('threshold').value=layout.threshold;$('thresholdValue').value=layout.threshold;
+  if(label){$('paperHeight').disabled=true;} $('heightMode').disabled=!!label;$('paperMargin').disabled=!!label;$('processing').disabled=!!label;
   $('threshold').disabled=layout.processing==='dither';
   syncImportedPages();
 }
@@ -155,12 +161,12 @@ function renderBlocks() {
   if(!doc.blocks.length)$('blocks').append(element('div',{class:'empty-state'},[element('h2',{text:'在这里开始创作'}),element('p',{text:'添加一个文字块，或上传一张图片。'})]));
 }
 function imageFor(asset) {
-  if(!imageCache.has(asset))imageCache.set(asset,new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>{imageCache.delete(asset);reject(new Error('图片加载失败，请重新上传'));};image.src='/media/'+asset;}));
+  if(!imageCache.has(asset))imageCache.set(asset,new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>{imageCache.delete(asset);reject(new Error('图片加载失败，请重新上传'));};if(window.WebPlatform)window.WebPlatform.assetURL(asset).then(url=>image.src=url).catch(reject);else image.src='/media/'+asset;}));
   return imageCache.get(asset);
 }
-function rotatedImage(image,rotation) {
+function rotatedImage(image,rotation,maxDimension=1600) {
   const rotated=document.createElement('canvas'),quarter=rotation===90||rotation===270;
-  const scale=Math.min(1,1600/Math.max(image.naturalWidth,image.naturalHeight));
+  const scale=Math.min(1,maxDimension/Math.max(image.naturalWidth,image.naturalHeight),Math.sqrt(16000000/(image.naturalWidth*image.naturalHeight)));
   const iw=Math.max(1,Math.round(image.naturalWidth*scale)),ih=Math.max(1,Math.round(image.naturalHeight*scale));
   rotated.width=quarter?ih:iw;rotated.height=quarter?iw:ih;
   const ctx=rotated.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,rotated.width,rotated.height);
@@ -259,7 +265,20 @@ function textCanvas(block,available) {
   // Keep physical font size for normal text; large vertical/rotated blocks fit the printable width.
   const scale=Math.min(1,available/result.width);return {image:result,width:result.width*scale,height:result.height*scale};
 }
+async function buildLabelPreview(snapshot) {
+  if(snapshot.blocks.length!==1 || snapshot.blocks[0].type!=='image') throw new Error('面单模式每页需且仅需一张完整图片；请上传面单 PDF 或新建空白草稿后添加一张面单图片');
+  const block=snapshot.blocks[0], paper=paperProfile(snapshot.layout);
+  if(block.crop && block.crop!=='original' || block.invert || block.effect && block.effect!=='original' || Number(block.brightness)||Number(block.contrast)) throw new Error('面单需保留完整条码，请先点击图片的“重置处理”；可以使用旋转调整方向');
+  const image=rotatedImage(await imageFor(block.asset),Number(block.rotation)||0,MAX_HEIGHT);
+  const g=ShippingLabel.geometry(snapshot.layout,paper.dots,image.width,image.height);
+  const canvas=document.createElement('canvas');canvas.width=g.width;canvas.height=g.height;
+  const ctx=canvas.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,g.width,g.height);
+  ctx.imageSmoothingEnabled=false;ctx.drawImage(image,g.x,g.y,g.drawWidth,g.drawHeight);
+  processBitmap(canvas,'threshold',clamp(snapshot.layout.threshold,40,240,180));
+  return {canvas,height:g.height,paper,clipped:false,printable:true};
+}
 async function buildPreview(snapshot) {
+    if(snapshot.layout.labelPreset && snapshot.layout.labelPreset!=='none') return buildLabelPreview(snapshot);
     await document.fonts.ready;
     const paper=paperProfile(snapshot.layout),WIDTH=paper.dots;
     const margin=clamp(snapshot.layout.margin,0,15,3)*DOTS_MM,available=WIDTH-2*margin;
@@ -317,7 +336,7 @@ async function renderPreview() {
     $('widthRuler').textContent=`${paper.mm} mm 纸 · 可打印 ${(WIDTH/DOTS_MM).toFixed(1)} mm`;
     $('paperDimensions').textContent=`${(WIDTH/DOTS_MM).toFixed(1)} × ${(height/DOTS_MM).toFixed(1)} mm · ${WIDTH} × ${height} 点`;
     previewError=clipped?'内容超出固定高度，请增加高度或改为自动延长':!printable?'请添加文字或图片后打印':'';
-    $('previewState').textContent=previewError|| (snapshot.layout.processing==='dither'?'照片抖动':'黑白点阵');$('previewState').style.color=previewError?'#111':'';
+    $('previewState').textContent=previewError|| (snapshot.layout.labelPreset && snapshot.layout.labelPreset!=='none'?`面单 ${snapshot.layout.labelWidth} × ${snapshot.layout.labelHeight} mm · 完整等比例适配`:snapshot.layout.processing==='dither'?'照片抖动':'黑白点阵');$('previewState').style.color=previewError?'#111':'';
     previewReady=printable&&!clipped;updatePrintButton();PreviewPanel.sync();
   } catch(error) {
     if(version!==previewVersion)return;previewReady=false;previewError=error.message;$('previewState').textContent=error.message;$('previewState').style.color='#111';updatePrintButton();PreviewPanel.syncState();
@@ -344,7 +363,7 @@ function readSettings() {
 function dateTime(timestamp){return new Date(timestamp*1000).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});}
 function updateDevice(next) {
   device=next;const online=!!device.worker_online,connected=!!device.connected;
-  $('serviceDot').classList.toggle('online',online);$('serviceLabel').replaceChildren(document.createTextNode(online?'打印服务已就绪':'打印服务未启动'),element('small',{text:'本机工作区'}));
+  $('serviceDot').classList.toggle('online',online);$('serviceLabel').replaceChildren(document.createTextNode(window.WebPlatform?(online?'浏览器打印已就绪':'此浏览器无法连接蓝牙'):(online?'打印服务已就绪':'打印服务未启动')),element('small',{text:window.WebPlatform?'此设备的浏览器':'本机工作区'}));
   const dot=$('connectionChip').querySelector('.dot');dot.classList.toggle('online',connected);$('connectionChip').querySelector('span').textContent=connected?'M04S 已连接':device.phase||'未连接';
   for(const id of ['connectionButton','deviceConnectButton']){$(id).textContent=connected?'断开连接':'连接打印机';$(id).disabled=!online||jobs.some(j=>['connect','disconnect'].includes(j.kind)&&['queued','running'].includes(j.status));}
   $('devicePhase').textContent=device.phase||'尚未连接';$('deviceError').hidden=!device.error;$('deviceError').textContent=device.error||'';
@@ -463,6 +482,36 @@ async function printAllImportedPages() {
 }
 function bindEvents() {
   PreviewPanel.init();
+  $('uploadLabelButton').onclick=()=>$('labelFile').click();
+  $('labelFile').onchange=async e=>{
+    const file=e.target.files[0];if(!file)return;
+    $('uploadLabelButton').disabled=true;
+    try {
+      await flushSave();
+      const layout={...doc.layout};
+      if(!layout.labelPreset || layout.labelPreset==='none')Object.assign(layout,{labelPreset:'76x130',labelWidth:76,labelHeight:130,labelInset:0,paperWidth:'110',processing:'threshold'});
+      if(file.size>10*1024*1024)throw new Error('面单文件最大 10 MB');
+      let imported;
+      if(file.name.toLowerCase().endsWith('.pdf')){
+        const form=new FormData();form.append('document',file);form.append('pages',$('importPageRange').value);
+        imported=await api('/api/import/document',form);
+      }else{
+        const form=new FormData();form.append('image',file);const uploaded=await api('/api/uploads',form);
+        imported={title:file.name,blocks:[{id:uid(),type:'image',asset:uploaded.id,rotation:0,crop:'original',effect:'original'}]};
+      }
+      doc={version:1,layout,blocks:imported.blocks,pages:imported.pages||[],activePage:0};documentId=null;
+      $('documentTitle').value=imported.title;syncLayout();renderBlocks();changed();await saveDocument();toast('面单已导入，请核对预览、纸卷与尺寸');
+    }catch(error){toast(error.message,true);}finally{$('uploadLabelButton').disabled=false;$('labelFile').value='';}
+  };
+  $('labelPreset').onchange=e=>{
+    const value=e.target.value;doc.layout.labelPreset=value;
+    if(value!=='none'){
+      const [width,height]=value==='custom'?[doc.layout.labelWidth||76,doc.layout.labelHeight||130]:value.split('x').map(Number);
+      Object.assign(doc.layout,{labelWidth:width,labelHeight:height,labelInset:doc.layout.labelInset??0,paperWidth:'110',processing:'threshold'});
+    }
+    syncLayout();changed();
+  };
+  for(const id of ['labelWidth','labelHeight','labelInset'])$(id).onchange=e=>{doc.layout[id]=Number(e.target.value);doc.layout.labelPreset='custom';syncLayout();changed();};
   bindCrop();
   $('importWebButton').onclick=()=>importContent('web');
   $('importDocumentButton').onclick=()=>$('documentFile').click();

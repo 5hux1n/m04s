@@ -26,6 +26,7 @@ def make_fixtures():
     document.core_properties.last_modified_by = 'm04s tests'
     document.add_heading('示例文档 TEST', 0)
     document.add_paragraph('这是用于导入验证的公开示例文字。12345678')
+    document.add_picture(str(ROOT / 'samples/66.png'))
     document.save(directory / '示例文档.docx')
     (directory / '示例文字.txt').write_text('示例文字 TEST 12345678\n第二行', encoding='utf-8')
     image = Image.new('RGB', (240, 160))
